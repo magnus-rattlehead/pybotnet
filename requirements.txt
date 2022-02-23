@@ -8,3 +8,4 @@ Pillow
 PyInstaller
 pyscreenshot
 django-crispy-forms
+django-ipware

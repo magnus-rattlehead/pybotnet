@@ -1,14 +1,15 @@
+from app import views
 from django.urls import path
-from . import views
+from .views import ClientDetailView, ClientListView
+from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('clients/', views.list_clients, name='clients'),
-    path('clients/<int:client_id>', views.client_details, name='clientdetails'),
-    path('command_all/', views.masscmd, name='command_all'),
-    path('<int:client_id>/command', views.command, name='command'),
-    path('<int:client_id>/console', views.console, name='console'),
-    path('<int:client_id>/initial', views.getcmd, name='initial'),
+    path('clients/', login_required(ClientListView.as_view()), name='clients'),
+    path('clients/<int:client_id>', login_required(ClientDetailView.as_view()), name='clientdetails'),
+    path('<int:client_id>/initial', views.initial, name='initial'),
     path('<int:client_id>/report', views.report, name='report'),
-    path('<int:client_id>/upload', views.upload, name='upload'),
+    path('upload/', login_required(views.upload), name='upload'),
+    path('uploads/', login_required(views.list_uploads), name='uploads'),
+    path('uploads/<int:upload_id>', login_required(views.delete_upload), name='upload_detail'),
 ]
